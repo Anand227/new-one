@@ -3,13 +3,19 @@ pipeline {
     options {
         checkoutToSubdirectory('source')
     }
-    
+    tools {
+        maven 'M2_HOME'
+    }
+    options{
+        checkoutToSubdirectory('source')
+    }
+        
     stages {
         stage ('Build') {
             
             steps {
-                dir ('source') {
-                    sh '''/var/lib/jenkins/maven/bin/mvn -Dmaven.test.failure.ignore=true clean install
+                dir ('source/Hello-world-CICD-master') {
+                    sh '''mvn -Dmaven.test.failure.ignore=true clean install
                           cp -R target/*.war ansible/hello-world.war'''
                 }
                 dir ('source/terraform/dev') {
